@@ -17,17 +17,24 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace Wpf_Tecaj
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    
     public partial class MainWindow : Window
     {
+      
         public MainWindow()
         {
-            InitializeComponent(); 
+            InitializeComponent();
+
+           
         }
 
         public class HNBResponse
@@ -37,14 +44,17 @@ namespace Wpf_Tecaj
             public decimal srednji_tecaj { get; set; }
             public decimal prodajni_tecaj { get; set; }
             public DateTime datum { get; set; }
+            public string color { get; set; }
         }
 
       
-        private async void btnRefresh_Click(object sender, RoutedEventArgs e)
+        private  async void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
 
-            //Initialize HTTP Client 
-           var currencies = await GetCurrencies();
+            var currencies =   await GetCurrencies();
+            HnbGrid.ItemsSource = currencies; //ovo maknit
+
+
         }
 
 
@@ -65,45 +75,16 @@ namespace Wpf_Tecaj
             return await JsonConvert.DeserializeObjectAsync<List<HNBResponse>>(jsonResponse, jsonSetting);
         }
 
+
         private void HnbGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
         }
 
-
-
-
-        //public class Tecaj
-        //{
-        //    public string Name { get; set; }
-        //    public decimal Price { get; set; }
-        //}
-
-
-        //public void GetData()
-        //{
-        //    HttpClient client = new HttpClient();
-
-        //    //client.BaseAddress = new Uri("http://www.hnb.hr/hnb-tecajna-lista-portlet/rest/tecajn/getformatedrecords.dat");
-
-        //    client.BaseAddress = new Uri("http://localhost:55268/");
-        //    client.DefaultRequestHeaders.Accept.Clear();
-        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-
-
-        //    HttpResponseMessage response = client.GetAsync("api").Result;
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        MessageBox.Show("Sucess Petre");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Error Petre");
-        //    }
-
-        //}
+        private async void HnbGrid_Initialized(object sender, EventArgs e)
+        {
+            var currencies = await GetCurrencies();
+        }
 
 
 

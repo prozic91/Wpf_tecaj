@@ -11,8 +11,16 @@
         <Label HorizontalAlignment="Right" Margin="0,8,70,0">PBZ Tecaj</Label>
         <DataGrid Name="HnbGrid"
                   HorizontalAlignment="Left" Margin="30,30,0,0"
-                  AutoGenerateColumns="True"
-                  VerticalAlignment="Top" Height="350" Width="140" SelectionChanged="HnbGrid_SelectionChanged">
+                  AutoGenerateColumns="False"
+            VerticalAlignment="Top" Height="350" Width="140" SelectionChanged="HnbGrid_SelectionChanged" Initialized="HnbGrid_Initialized">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="HnbValuta" Binding="{Binding Path=valuta}" Header="Valuta"/>
+                <DataGridTextColumn x:Name="HnbSrednji" Binding="{Binding Path=srednji_tecaj}" Header="Srednji Tecaj" Foreground="Black"/>
+
+            </DataGrid.Columns>
+
+
         </DataGrid>
 
         <DataGrid Name="PbzGrid"
@@ -20,11 +28,11 @@
                   AutoGenerateColumns="True"
                   VerticalAlignment="Top" Height="350" Width="140">
         </DataGrid>
-        
-        
-        <Button x:Name="btnRefresh" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="214,0,204.667,36.667" Click="btnRefresh_Click">REFRESH</Button>
-    
-        
-        
+
+
+        <Button x:Name="btnRefresh" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="214,0,204.667,46.667" Click="btnRefresh_Click">REFRESH</Button>
+
+
+
     </Grid>
 </Window>
