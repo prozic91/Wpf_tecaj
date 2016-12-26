@@ -29,7 +29,6 @@ namespace Wpf_Tecaj
     
     public partial class MainWindow : Window
     {
-      
         public MainWindow()
         {
             InitializeComponent();
@@ -44,24 +43,56 @@ namespace Wpf_Tecaj
             public decimal srednji_tecaj { get; set; }
             public decimal prodajni_tecaj { get; set; }
             public DateTime datum { get; set; }
-            public string color { get; set; }
+            public Color color { get; set; }
         }
 
-      
+        public class PBZResponse
+        {
+            public string valuta { get; set; }
+            public decimal kupovni_tecaj { get; set; }
+            public decimal srednji_tecaj { get; set; }
+            public decimal prodajni_tecaj { get; set; }
+            public DateTime datum { get; set; }
+            public Color color { get; set; }
+        }
+
+
         private  async void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            List<HNBResponse> boja = new List<HNBResponse>();
 
-            var currencies =   await GetCurrencies();
-            HnbGrid.ItemsSource = currencies; //ovo maknit
+            var currencies = await GetCurrencies();
+            var pbzValuta = await PbzCurrencies();
+
+            foreach (var hnb in currencies)
+            {
+               
+
+                var pbz = pbzValuta.SingleOrDefault(m => m.valuta.ToLower() == hnb.valuta.ToLower());
+
+                if (pbz.kupovni_tecaj > hnb.srednji_tecaj)
+                {
+                    pbz.color = (Color)ColorConverter.ConvertFromString("blue");
+                    hnb.color = (Color)ColorConverter.ConvertFromString("red");
+                }
+                else
+                {
+                    pbz.color = (Color)ColorConverter.ConvertFromString("red");
+                    hnb.color = (Color)ColorConverter.ConvertFromString("blue");
+                }
+            }
 
 
+
+            HnbGrid.ItemsSource = currencies;
+            PbzGrid.ItemsSource = pbzValuta;
+
+            
         }
 
 
         private async Task<List<HNBResponse>> GetCurrencies()
         {
-            List<HNBResponse> result = new List<HNBResponse>();
-
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("http://www.hnb.hr");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -70,9 +101,34 @@ namespace Wpf_Tecaj
             response.EnsureSuccessStatusCode(); // Throw on error code. 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
+
             var jsonSetting = new JsonSerializerSettings();
             jsonSetting.Culture = new CultureInfo("hr-HR");
-            return await JsonConvert.DeserializeObjectAsync<List<HNBResponse>>(jsonResponse, jsonSetting);
+            var result = await JsonConvert.DeserializeObjectAsync<List<HNBResponse>>(jsonResponse, jsonSetting);
+
+                   
+            return result;
+
+
+        }
+
+        private async Task<List<PBZResponse>> PbzCurrencies()
+        {
+            List<PBZResponse> PbzResult = new List<PBZResponse>();
+
+            HttpClient pbzClient = new HttpClient();
+            pbzClient.BaseAddress = new Uri("http://www.hnb.hr");
+            pbzClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage pbzResponse = await pbzClient.GetAsync("/hnb-tecajna-lista-portlet/rest/tecajn");
+            pbzResponse.EnsureSuccessStatusCode(); // Throw on error code. 
+            var jsonPbzResponse = await pbzResponse.Content.ReadAsStringAsync();
+            var jsonPbzSetting = new JsonSerializerSettings();
+            jsonPbzSetting.Culture = new CultureInfo("hr-HR");
+            var result = await JsonConvert.DeserializeObjectAsync<List<PBZResponse>>(jsonPbzResponse, jsonPbzSetting);
+
+           
+            return result;
         }
 
 

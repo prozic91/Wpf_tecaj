@@ -1,11 +1,14 @@
 ﻿<Window x:Class="Wpf_Tecaj.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_Tecaj"
         mc:Ignorable="d"
         Title="Tecaj" Height="500" Width="525">
+    <!--<Window.Resources>
+        <SolidColorBrush x:Key="clBr" Color="Red" />
+    </Window.Resources>-->
     <Grid>
         <Label Margin="70,8,0,0">HNB Tecaj</Label>
         <Label HorizontalAlignment="Right" Margin="0,8,70,0">PBZ Tecaj</Label>
@@ -15,7 +18,17 @@
             VerticalAlignment="Top" Height="350" Width="140" SelectionChanged="HnbGrid_SelectionChanged" Initialized="HnbGrid_Initialized">
 
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="HnbValuta" Binding="{Binding Path=valuta}" Header="Valuta"/>
+                <DataGridTextColumn x:Name="HnbValuta" Binding="{Binding Path=valuta}" Header="Valuta">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Path=color}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn x:Name="HnbSrednji" Binding="{Binding Path=srednji_tecaj}" Header="Srednji Tecaj" Foreground="Black"/>
 
             </DataGrid.Columns>
@@ -25,8 +38,37 @@
 
         <DataGrid Name="PbzGrid"
                   HorizontalAlignment="Right" Margin="0,30,30,0"
-                  AutoGenerateColumns="True"
+                  AutoGenerateColumns="False"
                   VerticalAlignment="Top" Height="350" Width="140">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="PbzValuta" Binding="{Binding Path=valuta}" Header="Valuta">
+
+
+
+
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Path=color}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+
+                </DataGridTextColumn>
+                
+                
+                
+                
+                
+                <DataGridTextColumn x:Name="PbzSrednji" Binding="{Binding Path=kupovni_tecaj}" Header="Srednji Tecaj" Foreground="Black">
+
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            
+            
         </DataGrid>
 
 
