@@ -110,6 +110,7 @@ namespace Wpf_Tecaj
             {
 
                 var tecajTable = context.Tecaj.SingleOrDefault(m => m.Ime == hnb.valuta);
+
                 if (tecajTable == null)
                 {
                     tecajTable = new Tecaj();
