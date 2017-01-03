@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using Wpf_Tecaj;
+using Wpf_Tecaj.Model;
 
 namespace Login_WPF
 {

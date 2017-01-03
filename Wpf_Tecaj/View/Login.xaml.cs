@@ -25,6 +25,8 @@ using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using Wpf_Tecaj;
+using Wpf_Tecaj.Model;
+using Wpf_Tecaj.ViewModel;
 
 namespace Login_WPF
 {
@@ -40,7 +42,7 @@ namespace Login_WPF
         }
         Registration registration = new Registration();
         MainWindow mainWindow = new MainWindow();
-        
+        MainWindowViewModel viewModel = new MainWindowViewModel();
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
@@ -63,7 +65,9 @@ namespace Login_WPF
                 {
                     if (username == ime.Name && password == ime.Password)
                     {
+                        Application.Current.Resources["IsUserAuthenticated"] = true;
                         mainWindow.Show();
+                        viewModel.BindData();
                         Close();
                     }
                     else

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wpf_Tecaj
+namespace Wpf_Tecaj.Model
 {
     using System;
     using System.Collections.Generic;
