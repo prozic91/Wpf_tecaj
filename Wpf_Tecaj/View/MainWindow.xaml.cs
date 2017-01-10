@@ -33,9 +33,11 @@ namespace Wpf_Tecaj
     
     public partial class MainWindow : Window
     {
+
         MainWindowViewModel viewService = new MainWindowViewModel();
         public MainWindow()
         {
+
             InitializeComponent();
         }
 

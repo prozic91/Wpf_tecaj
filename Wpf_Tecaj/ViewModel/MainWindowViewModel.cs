@@ -6,11 +6,25 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Wpf_Tecaj.Model;
+using Wpf_Tecaj.ViewModel.Command;
 
 namespace Wpf_Tecaj.ViewModel
 {
-    class MainWindowViewModel
+    public class MainWindowViewModel
     {
+
+        public SimpleCommand SimpleCommand { get; set; }
+
+        public MainWindowViewModel()
+        {
+            this.SimpleCommand = new SimpleCommand(this);
+        }
+
+        public void SimpleMethod()
+        {
+            this.BindData();
+        }
+
         public async void BindData()
         {
 
